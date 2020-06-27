@@ -1,7 +1,6 @@
 from fastapi import FastAPI,File,UploadFile,APIRouter,Form
 import uvicorn
 from pydantic import BaseModel
-from typing import List
 import base64
 from disease_prediction import pred_lung_health
 
@@ -16,22 +15,15 @@ class Item(BaseModel):
     audio3: str = Form(...)
 
 
-@app.get("/")
+@app.get("/health")
 async def read_root():
-    return {"Hello": "World"}
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str = None,p: int = 0):
-    return {"item_id": item_id, "q": q, "p": p}
+    return {"status": "ok"}
 
 @app.post("/post/{item_id}")
 async def update_item(item_id: int,file: Item):
-    print(file.audio1)
-    print(file.audio2)
-    print(file.audio3)
-    wav_file1 = open('temp1.wav','wb')
-    wav_file2 = open('temp2.wav','wb')
-    wav_file3 = open('temp3.wav','wb')
+    wav_file1 = open('./../data/temp1.wav','wb')
+    wav_file2 = open('./../data/temp2.wav','wb')
+    wav_file3 = open('./../data/temp3.wav','wb')
     file1 = base64.b64decode(file.audio1)
     file2 = base64.b64decode(file.audio2)
     file3 = base64.b64decode(file.audio3)
@@ -42,9 +34,9 @@ async def update_item(item_id: int,file: Item):
     wav_file2.close()
     wav_file3.close()
     # Send the complete path of the wav files
-    pred_condition1 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/temp1.wav")
-    pred_condition2 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/temp2.wav")
-    pred_condition3 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/temp3.wav")
+    pred_condition1 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/data/temp1.wav")
+    pred_condition2 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/data/temp2.wav")
+    pred_condition3 = pred_lung_health("/home/bansalji/fastAPI-audioAPI/data/temp3.wav")
 
     return {
         "height" : file.height,
