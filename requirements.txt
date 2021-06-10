@@ -28,7 +28,7 @@ demjson==2.2.4
 distro==1.4.0
 distro-info===0.23ubuntu1
 entrypoints==0.3
-fastapi==0.58.0
+fastapi==0.65.2
 gast==0.3.3
 google-auth==1.18.0
 google-auth-oauthlib==0.4.1
